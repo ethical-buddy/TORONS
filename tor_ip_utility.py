@@ -8,6 +8,7 @@ import os
 import threading
 import time
 
+
 class TorUtility:
     def __init__(self, verbose=True):
         self.is_tor_active = False
@@ -135,6 +136,7 @@ class TorUtility:
                 if self.verbose:
                     print(
                         f"\n{self.COLOR_RED}Error checking Tor circuit information: {str(e)}{self.COLOR_RESET}")
+        return circuits
 
     def display_tor_configuration(self):
         try:
@@ -203,7 +205,8 @@ class TorUtility:
                     print(
                         f"\n{self.COLOR_YELLOW}Renewing Tor IP address...{self.COLOR_RESET}")
                 self.renew_tor_ip()
-                print(f"\n{self.COLOR_GREEN}NEW TOR IP: {self.get_absolute_current_ip()}{self.COLOR_RESET}")
+                print(
+                    f"\n{self.COLOR_GREEN}NEW TOR IP: {self.get_absolute_current_ip()}{self.COLOR_RESET}")
                 if self.verbose:
                     print(
                         f"\n{self.COLOR_YELLOW}Sleeping for 10 minutes...{self.COLOR_RESET}")
@@ -255,7 +258,8 @@ class TorUtility:
                     self.view_tor_ip_history()
                 elif choice == "7":
                     if self.verbose:
-                        print(f"\n{self.COLOR_YELLOW}Exiting...{self.COLOR_RESET}")
+                        print(
+                            f"\n{self.COLOR_YELLOW}Exiting...{self.COLOR_RESET}")
                     break
                 else:
                     if self.verbose:
@@ -273,5 +277,6 @@ class TorUtility:
 
 
 if __name__ == "__main__":
-    tor_utility = TorUtility(verbose=False)  # Set verbose to True or False as needed
+    # Set verbose to True or False to enable or disable verbose output
+    tor_utility = TorUtility(verbose=False)
     tor_utility.run()

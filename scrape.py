@@ -3,8 +3,6 @@ from tor_ip_utility import TorUtility
 import threading
 from datetime import datetime
 
-ip = None
-
 
 class TorWebScraper:
     def __init__(self):
@@ -31,6 +29,9 @@ class TorWebScraper:
         except Exception as e:
             print(f"Error: {e}")
 
+def update_ip():
+    global ip
+    ip = tor_utility.get_absolute_current_ip()
 
 if __name__ == "__main__":
     tor_utility = TorUtility(verbose=False)
@@ -38,9 +39,14 @@ if __name__ == "__main__":
     autorenew_ip_thread = threading.Thread(
         target=tor_utility.auto_renew_tor_ip)
     autorenew_ip_thread.start()
+    # autorenew_ip_thread.join() #This is blocking the main thread
+    # Expections: Run update_ip_thread after each time after autorenew_ip_thread is ran, so that ip variable can be updated with the new ip.
+    update_ip_thread = threading.Thread(target=update_ip)
+    update_ip_thread.start()
 
     print(tor_utility.get_absolute_current_ip())
     test_url = "http://torch2cjfpa4gwrzsghfd2g6nebckghjkx3bn6xyw6capgj2nqemveqd.onion/"
     while True:
         tor_scraper.scrape_url(url=test_url,
                                output_file='RJPOLICE_HACK_1279_CPC_11/temp/torch.html')
+        print(ip)
