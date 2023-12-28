@@ -1,3 +1,4 @@
+#Importing the required modules
 import requests
 from bs4 import BeautifulSoup
 import threading
@@ -7,6 +8,9 @@ from random import choice
 import spacy
 import signal
 import os
+import time
+from tor_ip_utility import renew_tor_ip
+
 
 # Import spaCy and load the English model
 nlp = spacy.load("en_core_web_sm")

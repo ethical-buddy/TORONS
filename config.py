@@ -1,0 +1,2 @@
+TOR_CONTROL_PORT = 9051
+TOR_PASSWORD = "aypassword"

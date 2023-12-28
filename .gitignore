@@ -1,0 +1,4 @@
+__pycache__/
+temp/
+tor_ip_history.txt
+starttor.bat
