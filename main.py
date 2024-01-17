@@ -6,6 +6,15 @@ import os
 import sys
 from pathlib import Path
 from tor_ip_utility import TorUtility
+from analyse_data import process_files
+import time
+import threading
+
+def run_process_files_continuously():
+    while True:
+        process_files()
+        time.sleep(60)
+
 
 BASE_URL = Path(__file__).parent
 tor_file = str(BASE_URL / "tor.py")
@@ -42,34 +51,40 @@ def main():
             choice = input("Enter the number of your choice: ")
 
             if choice == "1":
-                print(f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
+                print(
+                    f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
                 # asyncio.run(tor_main())
                 command = f"{sys.executable} {tor_file}"
                 open_new_terminal(command)
             elif choice == "2":
-                print(f"\n{Fore.YELLOW}Starting web crawling through I2P...{Style.RESET_ALL}")
+                print(
+                    f"\n{Fore.YELLOW}Starting web crawling through I2P...{Style.RESET_ALL}")
                 command = f"{sys.executable} {i2p_file}"
                 open_new_terminal(command)
             elif choice == "3":
-                print(f"\n{Fore.YELLOW}Starting web crawling through both Tor and I2P...{Style.RESET_ALL}")
+                print(
+                    f"\n{Fore.YELLOW}Starting web crawling through both Tor and I2P...{Style.RESET_ALL}")
                 command = f"{sys.executable} {both_file}"
                 open_new_terminal(command)
             elif choice == "4":
-                print(f"\n{Fore.YELLOW}Running Tor IP Utility...{Style.RESET_ALL}")
+                print(
+                    f"\n{Fore.YELLOW}Running Tor IP Utility...{Style.RESET_ALL}")
                 tor_ip_utility = TorUtility(verbose=True)
                 tor_ip_utility.run()
             elif choice == "5":
                 print(f"{Fore.YELLOW}Exiting...{Style.RESET_ALL}")
-                break
+                sys.exit(0)
             else:
-                print(f"\n{Fore.RED}Invalid choice. Please enter a number between 1 and 5.{Style.RESET_ALL}")
+                print(
+                    f"\n{Fore.RED}Invalid choice. Please enter a number between 1 and 5.{Style.RESET_ALL}")
         except KeyboardInterrupt:
             print(f"{Fore.YELLOW}Exiting...{Style.RESET_ALL}")
-            exit(0)
+            sys.exit(0)
         except Exception as e:
             print(f"\n{Fore.RED}Error: {str(e)}{Style.RESET_ALL}")
 
 
 if __name__ == "__main__":
+    process_files_thread = threading.Thread(target=run_process_files_continuously, daemon=True)
+    process_files_thread.start()
     main()
-

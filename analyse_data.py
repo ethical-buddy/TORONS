@@ -8,6 +8,8 @@ def process_files(directory_path='archive', output_csv_path='data/hateful_files.
     with open(output_csv_path, 'a+', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
 
+        # if directory_path does not exist, create it
+        os.makedirs(directory_path, exist_ok=True)
         # Iterate through each file in the directory
         for filename in os.listdir(directory_path):
             if filename.endswith('.csv'):
