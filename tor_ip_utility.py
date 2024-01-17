@@ -22,7 +22,7 @@ class TorUtility:
 
         # Initialize history file
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.history_file = f"{BASE_DIR}/tor_ip_history.txt"
+        self.history_file = f"{BASE_DIR}/data/tor_ip_history.txt"
         self.initialize_history_file()
 
         history_thread = threading.Thread(
@@ -44,9 +44,9 @@ class TorUtility:
             self.current_ip = self.get_absolute_current_ip()
             if self.current_ip:
                 self.log_ip_change(self.current_ip)
-                if self.verbose:
-                    print(
-                        f"\n\t\t\t\t\t\t{self.COLOR_GREEN}TOR IP: {self.current_ip}{self.COLOR_RESET}")
+                # if self.verbose:
+                #     print(
+                #         f"\n\t\t\t\t\t\t{self.COLOR_GREEN}TOR IP: {self.current_ip}{self.COLOR_RESET}")
 
     def log_ip_change(self, ip_address):
         """Log IP change along with timestamp."""

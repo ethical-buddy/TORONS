@@ -11,8 +11,8 @@ import string
 from fake_useragent import UserAgent
 
 TEMP_DB_PATH = 'temp'
-DATA_DIRECTORY = 'data'
-CSV_FILE_PATH = os.path.join(DATA_DIRECTORY, 'data.csv')
+DATA_DIRECTORY = 'archive'
+CSV_FILE_PATH = os.path.join('data', 'data.csv')
 
 
 async def fetch(url, session):

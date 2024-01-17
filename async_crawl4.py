@@ -13,8 +13,8 @@ import time
 import threading
 
 TEMP_DB_PATH = 'temp'
-DATA_DIRECTORY = 'data'
-CSV_FILE_PATH = os.path.join(DATA_DIRECTORY, 'data.csv')
+DATA_DIRECTORY = 'archive'
+CSV_FILE_PATH = os.path.join('data', 'data.csv')
 
 
 async def fetch(url, session):
@@ -111,8 +111,7 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
                     if not link.get('href').startswith('mailto:')
                 }
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-                filename = f"{id}_{timestamp}_{
-                    generate_secure_random_string(8)}.html"
+                filename = f"{id}_{timestamp}_{generate_secure_random_string(8)}.html"
                 save_data_to_file(await response.text(), DATA_DIRECTORY, filename)
                 # Save the final URL to CSV
                 save_url_to_csv(filename, final_url)

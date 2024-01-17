@@ -4,3 +4,8 @@ tor_ip_history.txt
 starttor.bat
 venv/
 venv2/
+saved_model/
+*.ipynb
+.ipynb_checkpoints
+data/
+archive/
