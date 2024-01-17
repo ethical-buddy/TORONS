@@ -8,7 +8,6 @@ import os
 import threading
 import time
 
-
 class TorUtility:
     def __init__(self, verbose=True):
         self.is_tor_active = False
@@ -30,6 +29,9 @@ class TorUtility:
             target=self.history_log)
         history_thread.start()
 
+        # Additional attribute to store the current IP
+        self.current_ip = None
+
     def initialize_history_file(self):
         """Initialize the history file."""
         if not os.path.exists(self.history_file):
@@ -39,12 +41,12 @@ class TorUtility:
     def history_log(self):
         """Log current IP address on instance creation"""
         with self.lock:
-            current_ip = self.get_absolute_current_ip()
-            if current_ip:
-                self.log_ip_change(current_ip)
+            self.current_ip = self.get_absolute_current_ip()
+            if self.current_ip:
+                self.log_ip_change(self.current_ip)
                 if self.verbose:
                     print(
-                        f"\n\t\t\t\t\t\t{self.COLOR_GREEN}TOR IP: {current_ip}{self.COLOR_RESET}")
+                        f"\n\t\t\t\t\t\t{self.COLOR_GREEN}TOR IP: {self.current_ip}{self.COLOR_RESET}")
 
     def log_ip_change(self, ip_address):
         """Log IP change along with timestamp."""
@@ -205,8 +207,9 @@ class TorUtility:
                     print(
                         f"\n{self.COLOR_YELLOW}Renewing Tor IP address...{self.COLOR_RESET}")
                 self.renew_tor_ip()
+                self.current_ip = self.get_absolute_current_ip()
                 print(
-                    f"\n{self.COLOR_GREEN}NEW TOR IP: {self.get_absolute_current_ip()}{self.COLOR_RESET}")
+                    f"\n{self.COLOR_GREEN}NEW TOR IP: {self.current_ip}{self.COLOR_RESET}")
                 if self.verbose:
                     print(
                         f"\n{self.COLOR_YELLOW}Sleeping for 10 minutes...{self.COLOR_RESET}")
@@ -283,7 +286,6 @@ class TorUtility:
                     print(
                         f"\n{self.COLOR_RED}Error: {str(e)}{self.COLOR_RESET}")
                 continue
-
 
 if __name__ == "__main__":
     # Set verbose to True or False to enable or disable verbose output
