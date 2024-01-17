@@ -9,8 +9,6 @@ import os
 import secrets
 import string
 from fake_useragent import UserAgent
-import time
-import threading
 
 TEMP_DB_PATH = 'temp'
 DATA_DIRECTORY = 'data'
@@ -71,6 +69,7 @@ def save_url_to_temp_db(url):
     print(f"URL saved to temporary database: {url}")
 
 
+
 def load_urls_from_temp_db():
     urls_set = set()
     temp_db_file_path = os.path.join(TEMP_DB_PATH, "scraped.txt")
@@ -81,11 +80,6 @@ def load_urls_from_temp_db():
 
 
 async def web_crawler_with_saving_and_urls(id, url, session, connector):
-    flag = False
-    if ".onion" in str(url) or ".i2p" in str(url):
-        flag = True
-    if not flag:
-        return set()
     if not id:
         id = 1
     scraped_urls = load_urls_from_temp_db()
@@ -103,6 +97,7 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
                 # Get the final URL after following redirects
                 final_url = str(response.url)
                 print(f"Final URL after redirects: {final_url}")
+
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 base_url = final_url
                 urls_set = {
@@ -111,15 +106,12 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
                     if not link.get('href').startswith('mailto:')
                 }
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-                filename = f"{id}_{timestamp}_{
-                    generate_secure_random_string(8)}.html"
+                filename = f"{id}_{timestamp}_{generate_secure_random_string(8)}.html"
                 save_data_to_file(await response.text(), DATA_DIRECTORY, filename)
-                # Save the final URL to CSV
-                save_url_to_csv(filename, final_url)
+                save_url_to_csv(filename, final_url)  # Save the final URL to CSV
                 # Save the final URL to the temporary database
                 save_url_to_temp_db(final_url)
-                if final_url != url:
-                    save_url_to_temp_db(url)
+                save_url_to_temp_db(url)
                 return urls_set
             else:
                 print(
@@ -138,15 +130,15 @@ async def recursive_crawler(url, session, connector, depth=1, max_depth=3, limit
     print(f"\nCrawling URL (Depth {depth}): {url}")
     found_urls = await web_crawler_with_saving_and_urls(depth, url, session, connector)
 
-    tasks = [recursive_crawler(next_url, session, connector,
-                               depth + 1, max_depth, limit) for next_url in found_urls]
+    tasks = [recursive_crawler(next_url, session, connector, depth + 1, max_depth, limit) for next_url in found_urls]
     await asyncio.gather(*tasks)
 
 
+
 async def main():
-    test_url = "http://torch2cjfpa4gwrzsghfd2g6nebckghjkx3bn6xyw6capgj2nqemveqd.onion/"
+    test_url = "http://ramble.i2p/"
     url_to_crawl = test_url
-    proxy_url = 'socks5://localhost:9050'
+    proxy_url = 'http://localhost:4444'
 
     connector = ProxyConnector.from_url(proxy_url)
 
@@ -154,7 +146,6 @@ async def main():
         async with aiohttp.ClientSession(connector=connector) as session:
             await recursive_crawler(url_to_crawl, session=session, connector=connector)
     finally:
-        # Cleanup: Delete the "temp" folder and its contents
         temp_folder_path = 'temp'
         try:
             for file_name in os.listdir(temp_folder_path):
@@ -170,19 +161,6 @@ async def main():
             print(f"Error during cleanup: {str(e)}")
 
 
-def clear_temp_db_data():
-    while True:
-        time.sleep(24*60*60)  # Sleep for 10 minutes (600 seconds)
-        try:
-            with open(os.path.join(TEMP_DB_PATH, "scraped.txt"), 'w', encoding='utf-8') as file:
-                file.truncate()
-        except Exception as e:
-            pass
-        print("Temporary database cleared.")
-
 
 if __name__ == '__main__':
-    clear_thread = threading.Thread(target=clear_temp_db_data)
-    clear_thread.daemon = True  # The thread will exit when the main program exits
-    clear_thread.start()
     asyncio.run(main())

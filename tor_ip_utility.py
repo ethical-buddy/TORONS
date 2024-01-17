@@ -271,7 +271,7 @@ class TorUtility:
                 elif choice == "8":
                     if self.verbose:
                         print(
-                            f"\n{self.COLOR_YELLOW}Exiting...{self.COLOR_RESET}")
+                            f"\n{self.COLOR_YELLOW}Exiting From Tor Utility...{self.COLOR_RESET}")
                     break
                 else:
                     if self.verbose:
