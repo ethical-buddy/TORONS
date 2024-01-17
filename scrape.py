@@ -29,9 +29,11 @@ class TorWebScraper:
         except Exception as e:
             print(f"Error: {e}")
 
+
 def update_ip():
     global ip
     ip = tor_utility.get_absolute_current_ip()
+
 
 if __name__ == "__main__":
     tor_utility = TorUtility(verbose=False)

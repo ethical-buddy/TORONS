@@ -164,14 +164,14 @@ class TorUtility:
                     # Add more configuration parameters as needed
                 ]
 
-                if self.verbose:
-                    print(
-                        f"\n{self.COLOR_GREEN}Tor Configuration Settings:{self.COLOR_RESET}")
+                # if self.verbose:
+                print(
+                    f"\n{self.COLOR_GREEN}Tor Configuration Settings:{self.COLOR_RESET}")
                 for param in config_parameters:
                     value = controller.get_conf(param)
-                    if self.verbose:
-                        print(
-                            f"    {self.COLOR_CYAN}{param}:{self.COLOR_RESET} {value}")
+                    # if self.verbose:
+                    print(
+                        f"    {self.COLOR_CYAN}{param}:{self.COLOR_RESET} {value}")
         except SocketError as se:
             if self.verbose:
                 print(
@@ -221,6 +221,11 @@ class TorUtility:
                         f"\n{self.COLOR_RED}Error: {str(e)}{self.COLOR_RESET}")
                 continue
 
+    @staticmethod
+    def start_nyx():
+        """Start nyx (Tor monitor)."""
+        os.system("nyx")
+
     def run(self):
         while True:
             try:
@@ -238,7 +243,9 @@ class TorUtility:
                         f"[{self.COLOR_CYAN}5{self.COLOR_RESET}] Toggle Tor Proxy (Enable/Disable)")
                     print(
                         f"[{self.COLOR_CYAN}6{self.COLOR_RESET}] View Tor IP History")
-                    print(f"[{self.COLOR_CYAN}7{self.COLOR_RESET}] Exit")
+                    print(
+                        f"[{self.COLOR_CYAN}7{self.COLOR_RESET}] Start nyx (Tor monitor)")
+                    print(f"[{self.COLOR_CYAN}8{self.COLOR_RESET}] Exit")
 
                 choice = input("Enter the number of your choice: ")
                 if choice == "1":
@@ -257,6 +264,8 @@ class TorUtility:
                 elif choice == "6":
                     self.view_tor_ip_history()
                 elif choice == "7":
+                    self.start_nyx()
+                elif choice == "8":
                     if self.verbose:
                         print(
                             f"\n{self.COLOR_YELLOW}Exiting...{self.COLOR_RESET}")
@@ -278,5 +287,5 @@ class TorUtility:
 
 if __name__ == "__main__":
     # Set verbose to True or False to enable or disable verbose output
-    tor_utility = TorUtility(verbose=False)
+    tor_utility = TorUtility(verbose=True)
     tor_utility.run()
