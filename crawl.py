@@ -105,7 +105,8 @@ def web_crawler_with_saving_and_urls(id, url):
             save_url_to_csv(filename, final_url)  # Save the final URL to CSV
             # Save the final URL to the temporary database
             save_url_to_temp_db(final_url)
-            save_url_to_temp_db(url)
+            if final_url != url:
+                save_url_to_temp_db(url)
             return urls_set
         else:
             print(
