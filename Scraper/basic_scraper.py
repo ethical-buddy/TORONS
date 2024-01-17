@@ -2,9 +2,18 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from urllib.parse import urljoin
+
+def sanitize_filename(filename):
+    # Replace invalid characters with underscores
+    invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
+    for char in invalid_chars:
+        filename = filename.replace(char, '_')
+    return filename
 
 def save_data_to_file(data, directory, filename):
     os.makedirs(directory, exist_ok=True)
+    filename = sanitize_filename(filename)
     filepath = os.path.join(directory, filename)
     with open(filepath, 'w', encoding='utf-8') as file:
         file.write(data)
@@ -20,12 +29,14 @@ def web_crawler_with_saving_and_urls(url, data_directory='data'):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Extract information or perform actions based on your needs
-        # For example, print the titles of all the links on the page
+        # For example, print the absolute URLs of all the links on the page
+        base_url = response.url
         urls_set = set()
         for link in soup.find_all('a'):
-            url = link.get('href')
-            if url:
-                urls_set.add(url)
+            relative_url = link.get('href')
+            if relative_url:
+                absolute_url = urljoin(base_url, relative_url)
+                urls_set.add(absolute_url)
 
         # Save the entire HTML content to a file
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
