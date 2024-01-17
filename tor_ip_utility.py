@@ -7,6 +7,8 @@ from datetime import datetime
 import os
 import threading
 import time
+from pathlib import Path
+
 
 class TorUtility:
     def __init__(self, verbose=True):
@@ -21,8 +23,8 @@ class TorUtility:
         self.COLOR_RESET = f"{Style.RESET_ALL}"
 
         # Initialize history file
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.history_file = f"{BASE_DIR}/data/tor_ip_history.txt"
+        BASE_DIR = Path(__file__).parent
+        self.history_file = (BASE_DIR / "data" / "tor_ip_history.txt")
         self.initialize_history_file()
 
         history_thread = threading.Thread(
@@ -286,6 +288,7 @@ class TorUtility:
                     print(
                         f"\n{self.COLOR_RED}Error: {str(e)}{self.COLOR_RESET}")
                 continue
+
 
 if __name__ == "__main__":
     # Set verbose to True or False to enable or disable verbose output
