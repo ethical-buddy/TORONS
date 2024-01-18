@@ -89,6 +89,11 @@ def load_urls_from_temp_db():
 
 
 async def web_crawler_with_saving_and_urls(id, url, session, connector):
+    flag = False
+    if ".onion" in str(url) or ".i2p" in str(url):
+        flag = True
+    if not flag:
+        return set()
     if not id:
         id = 1
     scraped_urls = load_urls_from_temp_db()
