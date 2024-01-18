@@ -110,4 +110,7 @@ if __name__ == "__main__":
     process_files_thread = threading.Thread(
         target=run_process_files_continuously, daemon=True)
     process_files_thread.start()
+    tor_utility_instance = TorUtility(False)
+    auto_renew_ip_thread = threading.Thread(target=tor_utility_instance.auto_renew_tor_ip, daemon=True)
+    auto_renew_ip_thread.start()
     main()

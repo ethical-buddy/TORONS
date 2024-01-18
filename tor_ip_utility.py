@@ -203,6 +203,7 @@ class TorUtility:
 
     def auto_renew_tor_ip(self):
         """Automatically renew Tor IP address every 10 minutes."""
+        print(f"\n{self.COLOR_YELLOW}Starting Auto IP Renewal service [10mins]...{self.COLOR_RESET}")
         while True:
             try:
                 if self.verbose:
@@ -215,7 +216,7 @@ class TorUtility:
                 if self.verbose:
                     print(
                         f"\n{self.COLOR_YELLOW}Sleeping for 10 minutes...{self.COLOR_RESET}")
-                time.sleep(60)
+                time.sleep(10)
             except KeyboardInterrupt:
                 if self.verbose:
                     print(f"\n{self.COLOR_YELLOW}Exiting...{self.COLOR_RESET}")
