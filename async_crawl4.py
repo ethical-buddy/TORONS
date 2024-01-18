@@ -123,6 +123,7 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
             else:
                 print(
                     f"Failed to retrieve the page. Status code: {response.status}")
+                save_url_to_not_found(url)
                 return set()
 
     except Exception as e:
@@ -143,15 +144,20 @@ async def recursive_crawler(url, session, connector, depth=1, max_depth=3, limit
 
 
 async def main():
-    test_url = "http://torch2cjfpa4gwrzsghfd2g6nebckghjkx3bn6xyw6capgj2nqemveqd.onion/"
-    url_to_crawl = test_url
+    search_keywords = ["index", "heroin", "meth"]
+    base_torch_url = f"http://torch2cjfpa4gwrzsghfd2g6nebckghjkx3bn6xyw6capgj2nqemveqd.onion/"
     proxy_url = 'socks5://localhost:9050'
 
     connector = ProxyConnector.from_url(proxy_url)
 
     try:
         async with aiohttp.ClientSession(connector=connector) as session:
-            await recursive_crawler(url_to_crawl, session=session, connector=connector)
+            for keyword in search_keywords:
+                url_to_crawl = base_torch_url + "?s=" + keyword
+                await recursive_crawler(url_to_crawl, session=session, connector=connector)
+            await recursive_crawler(r"http://6nhmgdpnyoljh5uzr5kwlatx2u3diou4ldeommfxjz3wkhalzgjqxzqd.onion/", session=session, connector=connector)
+    except Exception as e:
+        print(f"Error: {str(e)}")
     finally:
         # Cleanup: Delete the "temp" folder and its contents
         temp_folder_path = 'temp'
@@ -178,6 +184,13 @@ def clear_temp_db_data():
         except Exception as e:
             pass
         print("Temporary database cleared.")
+
+
+def save_url_to_not_found(url):
+    not_found_file_path = 'data/not_found.txt'
+    with open(not_found_file_path, 'a', encoding='utf-8') as file:
+        file.write(f"{url}\n")
+    print(f"URL saved to not found file: {url}")
 
 
 if __name__ == '__main__':
