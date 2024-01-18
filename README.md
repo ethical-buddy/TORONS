@@ -1,4 +1,4 @@
-# Asynchronous Web Crawler with NLP Analysis
+# Asynchronous DarkWeb Crawler with NLP Analysis
 
 ## Project Overview
 This project is an asynchronous web crawler designed for scraping data from websites on both the Tor (.onion) and I2P (.i2p) networks. Additionally, it includes an NLP component for hate speech classification on the extracted text data.
