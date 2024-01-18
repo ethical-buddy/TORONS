@@ -7,36 +7,45 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
+        body {
+            background-color: #1c1c1c; /* Dark background color */
+            color: #ffffff; /* Light text color */
+        }
+
         table {
             border-collapse: collapse;
             width: 80%;
             margin: 20px auto;
+            background-color: #2d2d2d; /* Dark table background color */
+            color: #ffffff; /* Light table text color */
         }
 
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #333; /* Dark border color */
             padding: 12px;
             text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #4d4d4d; /* Dark header background color */
         }
 
-        .toggle-btn {
-            float: right;
-            margin-bottom: 10px;
+        .container {
+            background-color: #333; /* Dark container background color */
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
-<body>
+<body class="bg-dark text-light">
     <div class="container">
         <h2 class="mt-4 mb-4">Analysed Data</h2>
         <div class="mb-3">
             <button onclick="filterData('all');window.location.reload();" class="btn btn-secondary">All</button>
             <button onclick="filterData('hateful')" class="btn btn-danger">Hateful</button>
             <button onclick="filterData('not_hateful')" class="btn btn-success">Not Hateful</button>
-            <button onclick="toggleSockets()" class="btn btn-info toggle-btn" id="sockets-toggle">Sockets On</button>
+            <button onclick="toggleSockets()" class="btn btn-info float-end" id="sockets-toggle">Sockets On</button>
         </div>
         <table class="table table-striped table-bordered">
             <thead class="thead-light">
@@ -113,7 +122,7 @@
                 } else {
                     row.style.display = "none";
                 }
-    
+
                 // Disable sockets after filtering
                 socketsEnabled = false;
                 storeSocketsSetting(socketsEnabled);
