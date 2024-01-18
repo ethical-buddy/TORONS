@@ -11,7 +11,8 @@ import time
 import threading
 from pyfiglet import Figlet
 import platform
-
+import warnings
+warnings.filterwarnings("ignore")
 
 def print_banner():
     custom_fig = Figlet(font='slant')  # You can choose a different font

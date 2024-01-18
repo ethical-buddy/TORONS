@@ -192,9 +192,60 @@ def save_url_to_not_found(url):
         file.write(f"{url}\n")
     print(f"URL saved to not found file: {url}")
 
+async def retry_scrape_not_found_urls(session, connector):
+    not_found_file_path = 'data/not_found.txt'
+    try:
+        with open(not_found_file_path, 'r', encoding='utf-8') as file:
+            not_found_urls = [line.strip() for line in file if line.strip()]
+    except FileNotFoundError:
+        print("Not found file not found.")
+        return
+
+    for url in not_found_urls:
+        print(f"\nRetrying to scrape not found URL: {url}")
+        await web_crawler_with_saving_and_urls(None, url, session, connector)
+        # If the scraping is successful, remove the URL from not_found.txt
+        # if url not in load_urls_from_temp_db():
+        remove_url_from_not_found(url)
+
+
+def remove_url_from_not_found(url):
+    not_found_file_path = 'data/not_found.txt'
+    try:
+        with open(not_found_file_path, 'r', encoding='utf-8') as file:
+            not_found_urls = [line.strip() for line in file if line.strip()]
+        
+        if url in not_found_urls:
+            not_found_urls.remove(url)
+            
+            with open(not_found_file_path, 'w', encoding='utf-8') as file:
+                for not_found_url in not_found_urls:
+                    file.write(f"{not_found_url}\n")
+            print(f"Removed URL from not found file: {url}")
+        else:
+            print(f"URL not found in not found file: {url}")
+    except FileNotFoundError:
+        print("Not found file not found.")
+    except Exception as e:
+        print(f"Error while removing URL from not found file: {str(e)}")
+
+async def periodic_retry_scrape():
+    print("Periodic Retry Enabled")
+    while True:
+        time.sleep(10)  # Sleep for 10 seconds
+        try:
+            connector = ProxyConnector.from_url('socks5://localhost:9050')
+
+            async with aiohttp.ClientSession(connector=connector) as session:
+                await retry_scrape_not_found_urls(session, connector)
+        except Exception as e:
+            print(f"Error during periodic retry: {str(e)}")
 
 if __name__ == '__main__':
     clear_thread = threading.Thread(target=clear_temp_db_data)
     clear_thread.daemon = True  # The thread will exit when the main program exits
     clear_thread.start()
+    # retry_thread = threading.Thread(target=periodic_retry_scrape)
+    # retry_thread.daemon = True
+    # retry_thread.start()
     asyncio.run(main())
