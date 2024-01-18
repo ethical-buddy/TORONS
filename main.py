@@ -9,6 +9,23 @@ from tor_ip_utility import TorUtility
 from analyse_data import process_files
 import time
 import threading
+from pyfiglet import Figlet
+import platform
+
+
+def print_banner():
+    custom_fig = Figlet(font='slant')  # You can choose a different font
+    banner_text = custom_fig.renderText('ShadowSight')
+    print(f"{Fore.GREEN}{banner_text}{Style.RESET_ALL}")
+
+
+def display_system_info():
+    print(f"\n{Fore.CYAN}System Information:{Style.RESET_ALL}")
+    print(f"  OS: {platform.system()} ")
+    print(f"  Processor: {platform.processor()}")
+    print(f"  Python Version: {platform.python_version()}")
+    print(f"  Architecture: {platform.architecture()}")
+
 
 def run_process_files_continuously():
     while True:
@@ -34,16 +51,21 @@ async def crawl_both():
 
 def display_menu():
     print("\nChoose an option:")
-    print(f"[{Fore.CYAN}1{Style.RESET_ALL}] Start web crawling through Tor")
-    print(f"[{Fore.CYAN}2{Style.RESET_ALL}] Start web crawling through I2P")
     print(
-        f"[{Fore.CYAN}3{Style.RESET_ALL}] Start web crawling through both Tor and I2P")
-    print(f"[{Fore.CYAN}4{Style.RESET_ALL}] Run Tor IP Utility")
-    print(f"[{Fore.CYAN}5{Style.RESET_ALL}] Exit")
+        f"  {Fore.CYAN}[{Style.RESET_ALL}1{Fore.CYAN}]{Style.RESET_ALL} Start web crawling through Tor")
+    print(
+        f"  {Fore.CYAN}[{Style.RESET_ALL}2{Fore.CYAN}]{Style.RESET_ALL} Start web crawling through I2P")
+    print(
+        f"  {Fore.CYAN}[{Style.RESET_ALL}3{Fore.CYAN}]{Style.RESET_ALL} Start web crawling through both Tor and I2P")
+    print(
+        f"  {Fore.CYAN}[{Style.RESET_ALL}4{Fore.CYAN}]{Style.RESET_ALL} Run Tor IP Utility")
+    print(
+        f"  {Fore.CYAN}[{Style.RESET_ALL}5{Fore.CYAN}]{Style.RESET_ALL} Exit")
 
 
 def main():
-    print(f"{Fore.GREEN}Welcome to the Async Web Crawler CLI!{Style.RESET_ALL}")
+    print_banner()
+    display_system_info()
 
     while True:
         try:
@@ -53,7 +75,6 @@ def main():
             if choice == "1":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
-                # asyncio.run(tor_main())
                 command = f"{sys.executable} {tor_file}"
                 open_new_terminal(command)
             elif choice == "2":
@@ -85,6 +106,7 @@ def main():
 
 
 if __name__ == "__main__":
-    process_files_thread = threading.Thread(target=run_process_files_continuously, daemon=True)
+    process_files_thread = threading.Thread(
+        target=run_process_files_continuously, daemon=True)
     process_files_thread.start()
     main()
