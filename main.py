@@ -14,6 +14,7 @@ import platform
 import warnings
 warnings.filterwarnings("ignore")
 
+
 def print_banner():
     custom_fig = Figlet(font='slant')  # You can choose a different font
     banner_text = custom_fig.renderText('ShadowSight')
@@ -42,8 +43,14 @@ tor_ip_utility_file = str(BASE_URL / "tor_ip_utility.py")
 
 
 def open_new_terminal(command):
-    os.system(f'start cmd /k "{command}"')
-
+    if sys.platform == "win32":
+        os.system(f'start cmd /k "{command}"')
+    elif sys.platform.startswith("linux"):
+        os.system(f'gnome-terminal -- {command}')
+    elif sys.platform == "darwin":  
+        os.system(f'open -a Terminal.app {command}')
+    else:
+        NotImplementedError(f"Unsupported Operating System: {sys.platform}")
 
 async def crawl_both():
     tasks = [tor_main(), i2p_main()]
@@ -111,6 +118,7 @@ if __name__ == "__main__":
         target=run_process_files_continuously, daemon=True)
     process_files_thread.start()
     tor_utility_instance = TorUtility(False)
-    auto_renew_ip_thread = threading.Thread(target=tor_utility_instance.auto_renew_tor_ip, daemon=True)
+    auto_renew_ip_thread = threading.Thread(
+        target=tor_utility_instance.auto_renew_tor_ip, daemon=True)
     auto_renew_ip_thread.start()
     main()
