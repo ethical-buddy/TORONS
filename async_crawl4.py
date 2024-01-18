@@ -158,8 +158,11 @@ async def main():
     # create data/not_found.txt if it does not exist
     not_found_file_path = 'data/not_found.txt'
     os.makedirs('data', exist_ok=True)
-    with open(not_found_file_path, 'x', encoding='utf-8') as file:
-        file.close()
+    try:
+        with open(not_found_file_path, 'x', encoding='utf-8') as file:
+            file.close()
+    except:
+        pass
     search_keywords = ["index", "heroin", "meth"]
     base_torch_url = f"http://torch2cjfpa4gwrzsghfd2g6nebckghjkx3bn6xyw6capgj2nqemveqd.onion/"
     proxy_url = 'socks5://localhost:9050'
