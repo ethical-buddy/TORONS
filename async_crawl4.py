@@ -11,10 +11,18 @@ import string
 from fake_useragent import UserAgent
 import time
 import threading
+from colorama import init, Fore
+
+# Initialize colorama
+init()
 
 TEMP_DB_PATH = 'temp'
 DATA_DIRECTORY = 'archive'
 CSV_FILE_PATH = os.path.join('data', 'data.csv')
+
+
+def print_colored(message, color=Fore.WHITE):
+    print(color + message + Fore.RESET)
 
 
 async def fetch(url, session):
@@ -54,7 +62,8 @@ def save_url_to_csv(filename, url):
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         writer.writerow(
             {'filename': filename, 'url': url, 'timestamp': timestamp})
-        print(f"URL saved to CSV: filename={filename}, url={url}")
+        print_colored(
+            f"URL saved to CSV: filename={filename}, url={url}", Fore.GREEN)
 
 
 def save_url_to_temp_db(url):
@@ -63,12 +72,12 @@ def save_url_to_temp_db(url):
 
     # Check if the URL is already in the database
     if url in load_urls_from_temp_db():
-        print(f"URL already in temporary database: {url}")
+        print_colored(f"URL already in temporary database: {url}", Fore.YELLOW)
         return
 
     with open(temp_db_file, 'a', encoding='utf-8') as file:
         file.write(f"{url}\n")
-    print(f"URL saved to temporary database: {url}")
+    print_colored(f"URL saved to temporary database: {url}", Fore.GREEN)
 
 
 def load_urls_from_temp_db():
@@ -90,7 +99,7 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
         id = 1
     scraped_urls = load_urls_from_temp_db()
     if url in scraped_urls:
-        print(f"URL already scraped: {url}")
+        print_colored(f"URL already scraped: {url}", Fore.YELLOW)
         return set()
 
     try:
@@ -102,7 +111,8 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
             if response.status == 200:
                 # Get the final URL after following redirects
                 final_url = str(response.url)
-                print(f"Final URL after redirects: {final_url}")
+                print_colored(
+                    f"Final URL after redirects: {final_url}", Fore.GREEN)
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 base_url = final_url
                 urls_set = {
@@ -121,13 +131,14 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
                     save_url_to_temp_db(url)
                 return urls_set
             else:
-                print(
-                    f"Failed to retrieve the page. Status code: {response.status}")
+                print_colored(
+                    f"Failed to retrieve the page. Status code: {response.status}", Fore.RED)
                 save_url_to_not_found(url)
                 return set()
 
     except Exception as e:
-        print(f"Request failed for URL: {url}\nError: {e}")
+        print_colored(
+            f"Request failed for URL: {url}\nError: {e}", Fore.RED)
         return set()
 
 
@@ -135,7 +146,7 @@ async def recursive_crawler(url, session, connector, depth=1, max_depth=3, limit
     if limit and depth > max_depth:
         return
 
-    print(f"\nCrawling URL (Depth {depth}): {url}")
+    print_colored(f"\nCrawling URL (Depth {depth}): {url}", Fore.CYAN)
     found_urls = await web_crawler_with_saving_and_urls(depth, url, session, connector)
 
     tasks = [recursive_crawler(next_url, session, connector,
@@ -144,6 +155,11 @@ async def recursive_crawler(url, session, connector, depth=1, max_depth=3, limit
 
 
 async def main():
+    # create data/not_found.txt if it does not exist
+    not_found_file_path = 'data/not_found.txt'
+    os.makedirs('data', exist_ok=True)
+    with open(not_found_file_path, 'x', encoding='utf-8') as file:
+        file.close()
     search_keywords = ["index", "heroin", "meth"]
     base_torch_url = f"http://torch2cjfpa4gwrzsghfd2g6nebckghjkx3bn6xyw6capgj2nqemveqd.onion/"
     proxy_url = 'socks5://localhost:9050'
@@ -157,7 +173,7 @@ async def main():
                 await recursive_crawler(url_to_crawl, session=session, connector=connector)
             await recursive_crawler(r"http://6nhmgdpnyoljh5uzr5kwlatx2u3diou4ldeommfxjz3wkhalzgjqxzqd.onion/", session=session, connector=connector)
     except Exception as e:
-        print(f"Error: {str(e)}")
+        print_colored(f"Error: {str(e)}", Fore.RED)
     finally:
         # Cleanup: Delete the "temp" folder and its contents
         temp_folder_path = 'temp'
@@ -172,7 +188,7 @@ async def main():
             os.rmdir(temp_folder_path)
 
         except Exception as e:
-            print(f"Error during cleanup: {str(e)}")
+            print_colored(f"Error during cleanup: {str(e)}", Fore.RED)
 
 
 def clear_temp_db_data():
@@ -183,14 +199,15 @@ def clear_temp_db_data():
                 file.truncate()
         except Exception as e:
             pass
-        print("Temporary database cleared.")
+        print_colored("Temporary database cleared.", Fore.YELLOW)
 
 
 def save_url_to_not_found(url):
     not_found_file_path = 'data/not_found.txt'
     with open(not_found_file_path, 'a', encoding='utf-8') as file:
         file.write(f"{url}\n")
-    print(f"URL saved to not found file: {url}")
+    print_colored(f"URL saved to not found file: {url}", Fore.RED)
+
 
 async def retry_scrape_not_found_urls(session, connector):
     not_found_file_path = 'data/not_found.txt'
@@ -198,11 +215,12 @@ async def retry_scrape_not_found_urls(session, connector):
         with open(not_found_file_path, 'r', encoding='utf-8') as file:
             not_found_urls = [line.strip() for line in file if line.strip()]
     except FileNotFoundError:
-        print("Not found file not found.")
+        print_colored("Not found file not found.", Fore.RED)
         return
 
     for url in not_found_urls:
-        print(f"\nRetrying to scrape not found URL: {url}")
+        print_colored(
+            f"\nRetrying to scrape not found URL: {url}", Fore.YELLOW)
         await web_crawler_with_saving_and_urls(None, url, session, connector)
         # If the scraping is successful, remove the URL from not_found.txt
         # if url not in load_urls_from_temp_db():
@@ -214,23 +232,27 @@ def remove_url_from_not_found(url):
     try:
         with open(not_found_file_path, 'r', encoding='utf-8') as file:
             not_found_urls = [line.strip() for line in file if line.strip()]
-        
+
         if url in not_found_urls:
             not_found_urls.remove(url)
-            
+
             with open(not_found_file_path, 'w', encoding='utf-8') as file:
                 for not_found_url in not_found_urls:
                     file.write(f"{not_found_url}\n")
-            print(f"Removed URL from not found file: {url}")
+            print_colored(
+                f"Removed URL from not found file: {url}", Fore.GREEN)
         else:
-            print(f"URL not found in not found file: {url}")
+            print_colored(
+                f"URL not found in not found file: {url}", Fore.YELLOW)
     except FileNotFoundError:
-        print("Not found file not found.")
+        print_colored("Not found file not found.", Fore.RED)
     except Exception as e:
-        print(f"Error while removing URL from not found file: {str(e)}")
+        print_colored(
+            f"Error while removing URL from not found file: {str(e)}", Fore.RED)
+
 
 async def periodic_retry_scrape():
-    print("Periodic Retry Enabled")
+    print_colored("Periodic Retry Enabled", Fore.CYAN)
     while True:
         time.sleep(10)  # Sleep for 10 seconds
         try:
@@ -239,7 +261,8 @@ async def periodic_retry_scrape():
             async with aiohttp.ClientSession(connector=connector) as session:
                 await retry_scrape_not_found_urls(session, connector)
         except Exception as e:
-            print(f"Error during periodic retry: {str(e)}")
+            print_colored(f"Error during periodic retry: {str(e)}", Fore.RED)
+
 
 if __name__ == '__main__':
     clear_thread = threading.Thread(target=clear_temp_db_data)

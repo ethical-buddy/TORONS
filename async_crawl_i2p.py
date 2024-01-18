@@ -9,10 +9,18 @@ import os
 import secrets
 import string
 from fake_useragent import UserAgent
+from colorama import init, Fore
+
+# Initialize colorama
+init()
 
 TEMP_DB_PATH = 'temp'
 DATA_DIRECTORY = 'archive'
 CSV_FILE_PATH = os.path.join('data', 'data.csv')
+
+
+def print_colored(message, color=Fore.WHITE):
+    print(color + message + Fore.RESET)
 
 
 async def fetch(url, session):
@@ -40,7 +48,7 @@ def save_data_to_file(data, directory, filename):
     filepath = os.path.join(directory, sanitize_filename(filename))
     with open(filepath, 'w', encoding='utf-8') as file:
         file.write(data)
-    print(f"Data saved to: {filepath}")
+    print_colored(f"Data saved to: {filepath}", Fore.MAGENTA)
 
 
 def save_url_to_csv(filename, url):
@@ -52,7 +60,8 @@ def save_url_to_csv(filename, url):
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         writer.writerow(
             {'filename': filename, 'url': url, 'timestamp': timestamp})
-        print(f"URL saved to CSV: filename={filename}, url={url}")
+        print_colored(
+            f"URL saved to CSV: filename={filename}, url={url}", Fore.MAGENTA)
 
 
 def save_url_to_temp_db(url):
@@ -61,13 +70,13 @@ def save_url_to_temp_db(url):
 
     # Check if the URL is already in the database
     if url in load_urls_from_temp_db():
-        print(f"URL already in temporary database: {url}")
+        print_colored(
+            f"URL already in temporary database: {url}", Fore.MAGENTA)
         return
 
     with open(temp_db_file, 'a', encoding='utf-8') as file:
         file.write(f"{url}\n")
-    print(f"URL saved to temporary database: {url}")
-
+    print_colored(f"URL saved to temporary database: {url}", Fore.MAGENTA)
 
 
 def load_urls_from_temp_db():
@@ -84,7 +93,7 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
         id = 1
     scraped_urls = load_urls_from_temp_db()
     if url in scraped_urls:
-        print(f"URL already scraped: {url}")
+        print_colored(f"URL already scraped: {url}", Fore.MAGENTA)
         return set()
 
     try:
@@ -96,7 +105,8 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
             if response.status == 200:
                 # Get the final URL after following redirects
                 final_url = str(response.url)
-                print(f"Final URL after redirects: {final_url}")
+                print_colored(
+                    f"Final URL after redirects: {final_url}", Fore.MAGENTA)
 
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 base_url = final_url
@@ -108,18 +118,20 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
                 filename = f"{id}_{timestamp}_{generate_secure_random_string(8)}.html"
                 save_data_to_file(await response.text(), DATA_DIRECTORY, filename)
-                save_url_to_csv(filename, final_url)  # Save the final URL to CSV
+                # Save the final URL to CSV
+                save_url_to_csv(filename, final_url)
                 # Save the final URL to the temporary database
                 save_url_to_temp_db(final_url)
                 save_url_to_temp_db(url)
                 return urls_set
             else:
-                print(
-                    f"Failed to retrieve the page. Status code: {response.status}")
+                print_colored(
+                    f"Failed to retrieve the page. Status code: {response.status}", Fore.MAGENTA)
                 return set()
 
     except Exception as e:
-        print(f"Request failed for URL: {url}\nError: {e}")
+        print_colored(
+            f"Request failed for URL: {url}\nError: {e}", Fore.MAGENTA)
         return set()
 
 
@@ -127,12 +139,12 @@ async def recursive_crawler(url, session, connector, depth=1, max_depth=3, limit
     if limit and depth > max_depth:
         return
 
-    print(f"\nCrawling URL (Depth {depth}): {url}")
+    print_colored(f"\nCrawling URL (Depth {depth}): {url}", Fore.MAGENTA)
     found_urls = await web_crawler_with_saving_and_urls(depth, url, session, connector)
 
-    tasks = [recursive_crawler(next_url, session, connector, depth + 1, max_depth, limit) for next_url in found_urls]
+    tasks = [recursive_crawler(next_url, session, connector,
+                               depth + 1, max_depth, limit) for next_url in found_urls]
     await asyncio.gather(*tasks)
-
 
 
 async def main():
@@ -158,8 +170,7 @@ async def main():
             os.rmdir(temp_folder_path)
 
         except Exception as e:
-            print(f"Error during cleanup: {str(e)}")
-
+            print_colored(f"Error during cleanup: {str(e)}", Fore.MAGENTA)
 
 
 if __name__ == '__main__':
