@@ -1,4 +1,4 @@
-# Asynchronous DarkWeb Crawler with NLP Analysis
+# ShadowSight DarkWeb Crawler
 
 ## Project Overview
 This project is an asynchronous web crawler designed for scraping data from websites on both the Tor (.onion) and I2P (.i2p) networks. Additionally, it includes an NLP component for hate speech classification on the extracted text data.
@@ -50,10 +50,9 @@ This project is an asynchronous web crawler designed for scraping data from webs
 - The hate speech classification model used is Hate-speech-CNERG/dehatebert-mono-english.
 
 ## Contributors
-- [Your Name]
-- [Additional contributors if any]
+- **Suryansh Deshwal:** Cyber Security expert
+- **Ayush Agrawal:** Developer
+- **Ritik Bhatt:** Developer
 
-## License
-This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
 
 
