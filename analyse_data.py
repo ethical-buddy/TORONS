@@ -2,6 +2,7 @@ import os
 import csv
 from bs4 import BeautifulSoup
 from nlp import classify_text_batch
+from categorize import get_possible_categories
 
 def process_files(directory_path='archive', output_csv_path='data/hateful_files.csv'):
     # Create a CSV file for tracking hateful files
@@ -34,13 +35,16 @@ def process_files(directory_path='archive', output_csv_path='data/hateful_files.
                     # classify the text
                     classification_result = classify_text_batch([text_content])
 
+                    # Get possible categories for the text
+                    categories = get_possible_categories(text_content)
+
                     # Check if any label is 'HATE'
                     if any(label['label'] == 'HATE' for label in classification_result):
                         # Mark the file as hateful in the CSV file
-                        csv_writer.writerow([filename, 'HATEFUL'])
+                        csv_writer.writerow([filename, 'HATEFUL', categories])
                         # print(f'{filename} is marked as HATEFUL.')
                     else:
-                        csv_writer.writerow([filename, 'NOT HATEFUL'])
+                        csv_writer.writerow([filename, 'NOT HATEFUL', categories])
                         # print(f'{filename} is marked as NOT HATEFUL.')
 
 if __name__ == "__main__":
