@@ -121,7 +121,8 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
                     if not link.get('href').startswith('mailto:')
                 }
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-                filename = f"{id}_{timestamp}_{generate_secure_random_string(8)}.html"
+                filename = f"{id}_{timestamp}_{
+                    generate_secure_random_string(8)}.html"
                 save_data_to_file(await response.text(), DATA_DIRECTORY, filename)
                 # Save the final URL to CSV
                 save_url_to_csv(filename, final_url)
@@ -162,6 +163,8 @@ async def main():
     try:
         async with aiohttp.ClientSession(connector=connector) as session:
             await recursive_crawler(url_to_crawl, session=session, connector=connector)
+    except KeyboardInterrupt:
+        print_colored("KeyboardInterrupt received. Exiting...", Fore.RED)
     finally:
         temp_folder_path = 'temp'
         try:
@@ -173,10 +176,12 @@ async def main():
                     os.rmdir(file_path)
 
             os.rmdir(temp_folder_path)
-
         except Exception as e:
             print_colored(f"Error during cleanup: {str(e)}", Fore.MAGENTA)
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print_colored("\nKeyboardInterrupt received. Exiting...", Fore.RED)

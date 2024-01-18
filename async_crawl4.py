@@ -105,36 +105,43 @@ async def web_crawler_with_saving_and_urls(id, url, session, connector):
     try:
         # Add a random user agent to the headers
         headers = {'User-Agent': get_random_user_agent()}
-        async with session.get(url, headers=headers, allow_redirects=True) as response:
-            response.raise_for_status()  # Raise an HTTPError for bad responses
+        
+        # Use a try-except block to catch CancelledError
+        try:
+            async with session.get(url, headers=headers, allow_redirects=True) as response:
+                response.raise_for_status()  # Raise an HTTPError for bad responses
 
-            if response.status == 200:
-                # Get the final URL after following redirects
-                final_url = str(response.url)
-                print_colored(
-                    f"Final URL after redirects: {final_url}", Fore.GREEN)
-                soup = BeautifulSoup(await response.text(), 'html.parser')
-                base_url = final_url
-                urls_set = {
-                    urljoin(base_url, link.get('href'))
-                    for link in soup.find_all('a', href=True)
-                    if not link.get('href').startswith('mailto:')
-                }
-                timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-                filename = f"{id}_{timestamp}_{generate_secure_random_string(8)}.html"
-                save_data_to_file(await response.text(), DATA_DIRECTORY, filename)
-                # Save the final URL to CSV
-                save_url_to_csv(filename, final_url)
-                # Save the final URL to the temporary database
-                save_url_to_temp_db(final_url)
-                if final_url != url:
-                    save_url_to_temp_db(url)
-                return urls_set
-            else:
-                print_colored(
-                    f"Failed to retrieve the page. Status code: {response.status}", Fore.RED)
-                save_url_to_not_found(url)
-                return set()
+                if response.status == 200:
+                    # Get the final URL after following redirects
+                    final_url = str(response.url)
+                    print_colored(
+                        f"Final URL after redirects: {final_url}", Fore.GREEN)
+                    soup = BeautifulSoup(await response.text(), 'html.parser')
+                    base_url = final_url
+                    urls_set = {
+                        urljoin(base_url, link.get('href'))
+                        for link in soup.find_all('a', href=True)
+                        if not link.get('href').startswith('mailto:')
+                    }
+                    timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+                    filename = f"{id}_{timestamp}_{generate_secure_random_string(8)}.html"
+                    save_data_to_file(await response.text(), DATA_DIRECTORY, filename)
+                    # Save the final URL to CSV
+                    save_url_to_csv(filename, final_url)
+                    # Save the final URL to the temporary database
+                    save_url_to_temp_db(final_url)
+                    if final_url != url:
+                        save_url_to_temp_db(url)
+                    return urls_set
+                else:
+                    print_colored(
+                        f"Failed to retrieve the page. Status code: {response.status}", Fore.RED)
+                    save_url_to_not_found(url)
+                    return set()
+
+        except asyncio.CancelledError:
+            # print_colored(f"Request for URL cancelled: {url}", Fore.YELLOW)
+            return set()
 
     except Exception as e:
         print_colored(
@@ -175,6 +182,8 @@ async def main():
                 url_to_crawl = base_torch_url + "?s=" + keyword
                 await recursive_crawler(url_to_crawl, session=session, connector=connector)
             await recursive_crawler(r"http://6nhmgdpnyoljh5uzr5kwlatx2u3diou4ldeommfxjz3wkhalzgjqxzqd.onion/", session=session, connector=connector)
+    except KeyboardInterrupt:
+        print_colored("KeyboardInterrupt received. Exiting...", Fore.RED)
     except Exception as e:
         print_colored(f"Error: {str(e)}", Fore.RED)
     finally:
@@ -274,4 +283,7 @@ if __name__ == '__main__':
     # retry_thread = threading.Thread(target=periodic_retry_scrape)
     # retry_thread.daemon = True
     # retry_thread.start()
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print_colored("\nKeyboardInterrupt received. Exiting...", Fore.RED)
