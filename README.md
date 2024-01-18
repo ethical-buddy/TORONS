@@ -46,7 +46,7 @@ This project is an asynchronous web crawler designed for scraping data from webs
 - `archive/`: Folder for storing scraped data.
 
 ## Command Line Interface
-![Command Line Interface](./CLI_Interface.png)
+![Command Line Interface](https://github.com/TORONS/RJPOLICE_HACK_1279_CPC_11/blob/main/CLI_Interface.png)
 
 ## Acknowledgements
 - This project uses the transformers library by Hugging Face for NLP tasks.
