@@ -257,7 +257,7 @@ def remove_url_from_not_found(url):
 async def periodic_retry_scrape():
     print_colored("Periodic Retry Enabled", Fore.CYAN)
     while True:
-        time.sleep(10)  # Sleep for 10 seconds
+        time.sleep(24*60*60)  # 1 day
         try:
             connector = ProxyConnector.from_url('socks5://localhost:9050')
 

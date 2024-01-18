@@ -216,7 +216,7 @@ class TorUtility:
                 if self.verbose:
                     print(
                         f"\n{self.COLOR_YELLOW}Sleeping for 10 minutes...{self.COLOR_RESET}")
-                time.sleep(10)
+                time.sleep(600)
             except KeyboardInterrupt:
                 if self.verbose:
                     print(f"\n{self.COLOR_YELLOW}Exiting...{self.COLOR_RESET}")
