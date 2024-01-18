@@ -1,95 +1,59 @@
-# Dark Web Monitoring Tool README (Work in Progress)
+# Asynchronous Web Crawler with NLP Analysis
 
-## Current Progress
+## Project Overview
+This project is an asynchronous web crawler designed for scraping data from websites on both the Tor (.onion) and I2P (.i2p) networks. Additionally, it includes an NLP component for hate speech classification on the extracted text data.
 
-### Problem Statement:
-Crawling a robust script that seamlessly integrates Tor and i2p proxies for secure access to the onion network. Utilizing multithreaded partitioning and sophisticated algorithms to extract and analyze data efficiently, the tool aims to provide a secure, streamlined, and comprehensive solution for Dark Web monitoring.
+## Features
+- **Asynchronous Web Crawling:**
+  - Concurrent crawling of Tor and I2P websites using asyncio and aiohttp.
+  - Data is saved to HTML files in the "archive" directory.
+  - CSV file (data.csv) stores URLs and timestamps for tracking purposes.
+  - Temporary URLs are stored in a database (temp/scraped.txt) to avoid redundant crawling.
 
-### Solution Approach:
+- **Randomization and Security:**
+  - Random user agents enhance anonymity during crawling.
+  - Secure random strings for various purposes.
 
-#### 1. Proxy Configuration:
-- Utilize Tor and i2p proxies within the script to establish secure connections to the onion network.
+- **NLP Analysis:**
+  - Hate speech classification using a pre-trained model (Hate-speech-CNERG/dehatebert-mono-english).
+  - Analysis of text data extracted during web crawling.
 
-#### 2. Multithreaded Partitioning:
-- Implement recursive modules running on separate threads, partitioning CPU resources for efficient computation.
-- Initial setup includes two partitions: one for accessing the Hidden Wiki and the other for dark web search engines like 'Torch.'
+- **User Interface:**
+  - Command-Line Interface (CLI) (main.py) for interactive menu-based control.
+  - Options to initiate web crawling through Tor, I2P, or both.
+  - Tor IP Utility for checking the current IP address.
+  
+- **Continuous Background Processing:**
+  - Background thread (run_process_files_continuously) for continuous file processing.
 
-#### 3. Crawling and Machine Learning:
-- Recursively crawl data from URLs found on each page.
-- Utilize Machine Learning to detect site behaviors and save crucial data to a dedicated database.
+## Prerequisites
+- Python 3.x
+- Install required packages using: `pip install -r requirements.txt`
+- Ensure Tor is running and configured for web crawling through the Tor network.
 
-#### 4. Dynamic Thread Management:
-- Maintain threads until the site is active; upon successful scraping, terminate the thread and initiate new recursions.
+## Usage
+1. Run `main.py` to access the CLI menu and start web crawling or run the Tor IP Utility.
+2. Execute `async_crawl4.py` and `async_crawl_i2p.py` independently for specific networks.
+3. Continuous file processing is handled in the background.
 
-#### 5. Targeted Search and Image Analysis:
-- Search for custom-made keywords on dark web search engines to locate target URLs.
-- Implement deep learning techniques to analyze images found on the dark web, extracting text and interpreting advertisements.
+## File Structure
+- `async_crawl4.py`: Asynchronous web crawler for Tor network.
+- `async_crawl_i2p.py`: Asynchronous web crawler for I2P network.
+- `main.py`: CLI for user interaction and control.
+- `nlp_main.py`: NLP script for hate speech classification.
+- `requirements.txt`: List of required Python packages.
+- `temp/`: Folder for temporary data storage.
+- `archive/`: Folder for storing scraped data.
 
-#### 6. Captcha Solving Algorithms:
-- Integrate algorithms designed to solve various types of captchas encountered during the crawling process.
+## Acknowledgements
+- This project uses the transformers library by Hugging Face for NLP tasks.
+- The hate speech classification model used is Hate-speech-CNERG/dehatebert-mono-english.
 
-### Technical Approach:
+## Contributors
+- [Your Name]
+- [Additional contributors if any]
 
-#### 1. Proxy Setup:
-- Tor, i2p
+## License
+This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
 
-#### 2. Thread Management:
-- Recursive, CPU-partitioned threads
 
-#### 3. Initial Partitions:
-- Hidden Wiki, Dark Web Search Engines
-
-#### 4. Data Handling:
-- Recursive URL crawling, Machine Learning-based behavior detection
-
-#### 5. Thread Termination:
-- Upon successful scraping
-
-#### 6. Search Techniques:
-- Custom keyword search, Image analysis with deep learning
-
-#### 7. Captcha Resolution:
-- Algorithms to solve diverse captcha challenges
-
-### Software and Technology:
-
-#### 1. Proxy Handling:
-- Tor libraries, i2p setup
-
-#### 2. Programming Language:
-- Python, Go
-
-#### 3. Multithreading:
-- Python's threading module
-
-#### 4. Web Scraping:
-- BeautifulSoup, Scrapy, Selenium
-
-#### 5. Machine Learning:
-- TensorFlow, Scikit-learn
-
-#### 6. Image Processing:
-- OpenCV, TensorFlow for image analysis
-
-#### 7. Captcha Solving:
-- Custom algorithms or libraries for captcha resolution
-
-### Team Members & Responsibilities:
-
-- **Suryansh Deshwal:** Cyber Security expert
-- **Ayush Agrawal:** Developer
-- **Ritik Bhatt:** Developer
-
-## Future Promises
-
-- **Complete Proxy Handling:** Full integration of Tor and i2p proxies for secure and anonymous connections.
-- **Optimized Multithreading:** Enhancements to thread management for improved resource utilization and efficiency.
-- **Expanded Partitions:** Inclusion of additional partitions for diverse data sources on the Dark Web.
-- **Advanced Data Handling:** Incorporation of advanced machine learning algorithms for more accurate behavior detection.
-- **Robust Thread Termination:** Improved thread termination strategies for better resource management.
-- **Enhanced Search Techniques:** Continued refinement of search techniques, including custom keyword algorithms.
-- **Captcha Resolution Optimization:** Ongoing development and improvement of algorithms for solving various captcha challenges.
-
-## Current Work
-
-Recursive web crawler is integrated and data is scraped into a csv database
