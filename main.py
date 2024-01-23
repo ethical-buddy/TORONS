@@ -6,7 +6,7 @@ import os
 import sys
 from pathlib import Path
 from tor_ip_utility import TorUtility
-from analyse_data import process_files
+from analyse_data_cass import process_files
 import time
 import threading
 from pyfiglet import Figlet

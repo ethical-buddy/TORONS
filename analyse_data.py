@@ -44,4 +44,3 @@ def process_files(directory_path='archive', output_csv_path='data/hateful_files.
 
 if __name__ == "__main__":
     process_files()
-
