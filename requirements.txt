@@ -43,6 +43,7 @@ nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 packaging==24.2
 propcache==0.3.1
+pyfiglet==1.0.2
 python-socks==2.7.1
 PyYAML==6.0.2
 regex==2024.11.6
