@@ -12,6 +12,7 @@ import threading
 from pyfiglet import Figlet
 import platform
 import warnings
+import subprocess
 warnings.filterwarnings("ignore")
 
 
@@ -84,17 +85,17 @@ def main():
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
                 command = f"{sys.executable} {tor_file}"
-                open_new_terminal(command)
+                subprocess.Popen([sys.executable, tor_file])
             elif choice == "2":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through I2P...{Style.RESET_ALL}")
                 command = f"{sys.executable} {i2p_file}"
-                open_new_terminal(command)
+                subprocess.Popen([sys.executable, i2p_file])
             elif choice == "3":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through both Tor and I2P...{Style.RESET_ALL}")
                 command = f"{sys.executable} {both_file}"
-                open_new_terminal(command)
+                subprocess.Popen([sys.executable, both_file])
             elif choice == "4":
                 print(
                     f"\n{Fore.YELLOW}Running Tor IP Utility...{Style.RESET_ALL}")
