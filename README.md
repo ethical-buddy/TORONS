@@ -52,10 +52,3 @@ This project is an asynchronous web crawler designed for scraping data from webs
 - This project uses the transformers library by Hugging Face for NLP tasks.
 - The hate speech classification model used is Hate-speech-CNERG/dehatebert-mono-english.
 
-## Contributors
-- **Suryansh Deshwal:** Cyber Security expert
-- **Ayush Agrawal:** Developer
-- **Ritik Bhatt:** Developer
-
-
-
