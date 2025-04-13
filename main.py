@@ -6,7 +6,7 @@ import os
 import sys
 from pathlib import Path
 from tor_ip_utility import TorUtility
-from analyse_data_cass import process_files
+from analyse_data_mongo import process_files
 import time
 import threading
 from pyfiglet import Figlet
@@ -47,7 +47,7 @@ def open_new_terminal(command):
     if sys.platform == "win32":
         os.system(f'start cmd /k "{command}"')
     elif sys.platform.startswith("linux"):
-        os.system(f'gnome-terminal -- {command}')
+        os.system(f'{os.getenv("TERM")} -e {command}')
     elif sys.platform == "darwin":  
         os.system(f'open -a Terminal.app {command}')
     else:
@@ -85,17 +85,17 @@ def main():
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
                 command = f"{sys.executable} {tor_file}"
-                subprocess.Popen([sys.executable, tor_file])
+                open_new_terminal(command)
             elif choice == "2":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through I2P...{Style.RESET_ALL}")
                 command = f"{sys.executable} {i2p_file}"
-                subprocess.Popen([sys.executable, i2p_file])
+                open_new_terminal(command)
             elif choice == "3":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through both Tor and I2P...{Style.RESET_ALL}")
                 command = f"{sys.executable} {both_file}"
-                subprocess.Popen([sys.executable, both_file])
+                open_new_terminal(command)
             elif choice == "4":
                 print(
                     f"\n{Fore.YELLOW}Running Tor IP Utility...{Style.RESET_ALL}")
