@@ -47,7 +47,13 @@ def open_new_terminal(command):
     if sys.platform == "win32":
         os.system(f'start cmd /k "{command}"')
     elif sys.platform.startswith("linux"):
-        os.system(f'{os.getenv("TERM")} -e {command}')
+        # Try using gnome-terminal, then xterm, then fallback
+        if os.system("which gnome-terminal > /dev/null 2>&1") == 0:
+             os.system(f'gnome-terminal -- bash -c \'{command}; exec bash\'')
+        elif os.system("which xterm > /dev/null 2>&1") == 0:
+             os.system(f'xterm -hold -e "{command}"')
+        else:
+             os.system(f'{os.getenv("TERM")} -e {command}')
     elif sys.platform == "darwin":  
         os.system(f'open -a Terminal.app {command}')
     else:
@@ -57,6 +63,14 @@ async def crawl_both():
     tasks = [tor_main(), i2p_main()]
     await asyncio.gather(*tasks)
 
+def display_resource_usage():
+    import psutil
+    print(f"\n{Fore.CYAN}System Resource Usage:{Style.RESET_ALL}")
+    cpu_percents = psutil.cpu_percent(interval=1, percpu=True)
+    for idx, percent in enumerate(cpu_percents):
+         print(f"  Core {idx}: {percent}%")
+    memory = psutil.virtual_memory()
+    print(f"  Memory usage: {memory.percent}% of {round(memory.total/1e9,1)} GB total\n")
 
 def display_menu():
     print("\nChoose an option:")
@@ -70,6 +84,10 @@ def display_menu():
         f"  {Fore.CYAN}[{Style.RESET_ALL}4{Fore.CYAN}]{Style.RESET_ALL} Run Tor IP Utility")
     print(
         f"  {Fore.CYAN}[{Style.RESET_ALL}5{Fore.CYAN}]{Style.RESET_ALL} Exit")
+
+    print(f"  {Fore.CYAN}[{Style.RESET_ALL}5{Fore.CYAN}]{Style.RESET_ALL} Exit")
+
+    print(f"  {Fore.CYAN}[{Style.RESET_ALL}6{Fore.CYAN}]{Style.RESET_ALL} Show system resource usage")
 
 
 def main():
@@ -85,8 +103,8 @@ def main():
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
                 command = f"{sys.executable} {tor_file}"
-                subprocess.Popen([sys.executable, tor_file])
-                # open_new_terminal(command)
+                # subprocess.Popen([sys.executable, tor_file])
+                open_new_terminal(command)
             elif choice == "2":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through I2P...{Style.RESET_ALL}")
@@ -105,6 +123,8 @@ def main():
             elif choice == "5":
                 print(f"{Fore.YELLOW}Exiting...{Style.RESET_ALL}")
                 sys.exit(0)
+            elif choice == "6":
+                display_resource_usage()
             else:
                 print(
                     f"\n{Fore.RED}Invalid choice. Please enter a number between 1 and 5.{Style.RESET_ALL}")

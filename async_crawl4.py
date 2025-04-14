@@ -1,9 +1,11 @@
 import asyncio
 import aiohttp
+import psutil
 from bs4 import BeautifulSoup
 from multiprocessing import Process
 from urllib.parse import urljoin, urlencode
 from colorama import Fore, init
+from concurrent.futures import ProcessPoolExecutor
 
 init()
 
@@ -49,9 +51,8 @@ async def crawl_recursive(start_url, session, depth=1, max_depth=1):
 
 
 async def keyword_crawler(keyword):
-    params = {'q': keyword}
-    search_url = f"{SEARCH_ENGINE}{keyword}"
-
+    params= {'q': keyword}
+    search_url = f"{SEARCH_ENGINE}?{urlencode(params)}"
     headers = {
         "User-Agent": "Mozilla/5.0 (compatible; Crawler/1.0)"
     }
@@ -66,14 +67,16 @@ def run_keyword_crawler(keyword):
 
 
 def start_multiprocess_crawlers():
-    print_colored(f"[+] Starting crawlers for {len(KEYWORDS)} keywords...", Fore.YELLOW)
-    processes = []
-    for keyword in KEYWORDS:
-        p = Process(target=run_keyword_crawler, args=(keyword,))
-        p.start()
-        processes.append(p)
-    for p in processes:
-        p.join()
+    print_colored(f"[+] Starting crawlers for {len(KEYWORDS)} keywords using a process pool...", Fore.YELLOW)
+    # Limit the number of workers to the lesser of the number of keywords or the available physical cores
+    max_workers = min(len(KEYWORDS), psutil.cpu_count(logical=False))
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+         futures = [executor.submit(run_keyword_crawler, keyword) for keyword in KEYWORDS]
+         for future in futures:
+             try:
+                 future.result()
+             except Exception as e:
+                 print_colored(f"[!] Error processing keyword: {e}", Fore.RED)
 
 
 if __name__ == "__main__":
