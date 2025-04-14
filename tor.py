@@ -1,23 +1,29 @@
 import asyncio
 from colorama import Fore, Style
-from async_crawl4 import main as tor_main
-from async_crawl_i2p import main as i2p_main
-from async_crawl4 import clear_temp_db_data, periodic_retry_scrape
 import threading
 
-def run_periodic_retry_scrape():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(periodic_retry_scrape())
+# Import the main functions from the crawlers
+from async_crawl4 import start_crawlers as tor_main
+from async_crawl_i2p import main as i2p_main
 
-print(f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
+# Runs the periodic retry task in a thread
+# def run_periodic_retry_scrape():
+#     loop = asyncio.new_event_loop()
+#     asyncio.set_event_loop(loop)
+#     loop.run_until_complete(periodic_retry_scrape())
 
+# Main entry point
+if __name__ == '__main__':
+    # Start the periodic retry thread (background)
+    # retry_thread = threading.Thread(target=run_periodic_retry_scrape)
+    # retry_thread.daemon = True
+    # retry_thread.start()
 
-retry_thread = threading.Thread(target=run_periodic_retry_scrape)
-retry_thread.daemon = True
-retry_thread.start()
+    # Start Tor-based crawler (multi-core handled inside)
+    print(f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
+    tor_main()
 
-clear_thread = threading.Thread(target=clear_temp_db_data)
-clear_thread.daemon = True  # The thread will exit when the main program exits
-clear_thread.start()
-asyncio.run(tor_main())
+    # Start I2P-based crawler (single-threaded async)
+    # print(f"\n{Fore.MAGENTA}Starting web crawling through I2P...{Style.RESET_ALL}")
+    # asyncio.run(i2p_main())
+
