@@ -1,23 +1,16 @@
 import asyncio
 from colorama import Fore, Style
-from async_crawl4 import main as tor_main
-from async_crawl_i2p import main as i2p_main
-from async_crawl4 import clear_temp_db_data, periodic_retry_scrape
+from async_crawl4 import start_multiprocess_crawlers
+# from async_crawl4 import clear_temp_db_data  # if using temp DB (optional)
 import threading
 
-def run_periodic_retry_scrape():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(periodic_retry_scrape())
+print(f"\n{Fore.YELLOW}Starting surface web crawling via DuckDuckGo...{Style.RESET_ALL}")
 
-print(f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
+# Optional: Clear temp DB in a background thread if you're still logging scraped URLs
+# clear_thread = threading.Thread(target=clear_temp_db_data)
+# clear_thread.daemon = True
+# clear_thread.start()
 
+# Start the surface web crawler (multiprocess per keyword)
+start_multiprocess_crawlers()
 
-retry_thread = threading.Thread(target=run_periodic_retry_scrape)
-retry_thread.daemon = True
-retry_thread.start()
-
-clear_thread = threading.Thread(target=clear_temp_db_data)
-clear_thread.daemon = True  # The thread will exit when the main program exits
-clear_thread.start()
-asyncio.run(tor_main())
