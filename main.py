@@ -1,6 +1,6 @@
 import asyncio
 from colorama import Fore, Style
-from async_crawl4 import main as tor_main
+from async_crawl4 import start_multiprocess_crawlers as tor_main
 from async_crawl_i2p import main as i2p_main
 import os
 import sys
@@ -85,7 +85,8 @@ def main():
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through Tor...{Style.RESET_ALL}")
                 command = f"{sys.executable} {tor_file}"
-                open_new_terminal(command)
+                subprocess.Popen([sys.executable, tor_file])
+                # open_new_terminal(command)
             elif choice == "2":
                 print(
                     f"\n{Fore.YELLOW}Starting web crawling through I2P...{Style.RESET_ALL}")
