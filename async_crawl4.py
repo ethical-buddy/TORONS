@@ -6,6 +6,7 @@ from multiprocessing import Process
 from urllib.parse import urljoin, urlencode
 from colorama import Fore, init
 from concurrent.futures import ProcessPoolExecutor
+from analyse_data_mongo import add_url_to_mongo
 
 init()
 
@@ -26,6 +27,7 @@ async def fetch_and_extract_links(url, session):
                 print_colored(f"Failed: {url} ({response.status})", Fore.RED)
                 return []
             html = await response.text()
+            # await add_url_to_mongo(html, str(response.url))
             soup = BeautifulSoup(html, 'html.parser')
             links = [
                 urljoin(str(response.url), a['href'])
