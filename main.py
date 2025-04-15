@@ -18,8 +18,8 @@ warnings.filterwarnings("ignore")
 
 def print_banner():
     custom_fig = Figlet(font='slant')  # You can choose a different font
-    banner_text = custom_fig.renderText('ShadowSight')
-    print(f"{Fore.GREEN}{banner_text}{Style.RESET_ALL}")
+    banner_text = custom_fig.renderText('T_O_R_O_N_S ')
+    print(f"{Fore.RED}{banner_text}{Style.RESET_ALL}")
 
 
 def display_system_info():
@@ -63,14 +63,22 @@ async def crawl_both():
     tasks = [tor_main(), i2p_main()]
     await asyncio.gather(*tasks)
 
-def display_resource_usage():
+def display_realtime_resource_usage():
     import psutil
-    print(f"\n{Fore.CYAN}System Resource Usage:{Style.RESET_ALL}")
-    cpu_percents = psutil.cpu_percent(interval=1, percpu=True)
-    for idx, percent in enumerate(cpu_percents):
-         print(f"  Core {idx}: {percent}%")
-    memory = psutil.virtual_memory()
-    print(f"  Memory usage: {memory.percent}% of {round(memory.total/1e9,1)} GB total\n")
+    print(f"\n{Fore.CYAN}Entering dynamic resource usage mode.{Style.RESET_ALL}")
+    print("Press Ctrl+C to return to the main menu.\n")
+    try:
+        while True:
+            cpu_percents = psutil.cpu_percent(interval=1, percpu=True)
+            memory = psutil.virtual_memory()
+            usage_str = " | ".join(f"Core {i}: {p}%" for i, p in enumerate(cpu_percents))
+            mem_str = f"Memory usage: {memory.percent}% of {round(memory.total/1e9,1)}GB total"
+            # Use carriage return to overwrite the same line and then print the memory usage on a new line.
+            # Alternatively, clear the screen if you want a full refresh (using os.system("clear") or similar)
+            print(f"\r{usage_str}  ||  {mem_str}", end="", flush=True)
+    except KeyboardInterrupt:
+        # When the user interrupts (Ctrl+C), add a newline and exit the view.
+        print(f"\n{Fore.YELLOW}Exiting dynamic resource usage view...{Style.RESET_ALL}")
 
 def display_menu():
     print("\nChoose an option:")
@@ -124,7 +132,7 @@ def main():
                 print(f"{Fore.YELLOW}Exiting...{Style.RESET_ALL}")
                 sys.exit(0)
             elif choice == "6":
-                display_resource_usage()
+                display_realtime_resource_usage()
             else:
                 print(
                     f"\n{Fore.RED}Invalid choice. Please enter a number between 1 and 5.{Style.RESET_ALL}")
