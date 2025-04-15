@@ -6,7 +6,7 @@ import os
 import sys
 from pathlib import Path
 from tor_ip_utility import TorUtility
-from analyse_data_mongo import process_files
+# from analyse_data_mongo import process_files
 import time
 import threading
 from pyfiglet import Figlet
@@ -32,7 +32,7 @@ def display_system_info():
 
 def run_process_files_continuously():
     while True:
-        process_files()
+        # process_files()
         time.sleep(60)
 
 
