@@ -1,0 +1,56 @@
+=== Benchmark Report - 2025-05-17 21:53:54 ===
+=== COMBINED CRAWLER BENCHMARK REPORT ===
+
+[Keyword: index]
+Time: 66.60s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: heroin]
+Time: 66.59s | URLs: 17 | Failed: 29
+Avg Response Time: 7.81s
+Max Concurrency: 8400
+Threads Used: 3
+Throughput: 0.25530876326070484
+
+[Keyword: meth]
+Time: 66.58s | URLs: 17 | Failed: 29
+Avg Response Time: 7.43s
+Max Concurrency: 8168
+Threads Used: 3
+Throughput: 0.25533325173497456
+
+[Keyword: porn]
+Time: 66.57s | URLs: 67 | Failed: 1680
+Avg Response Time: 7.60s
+Max Concurrency: 20398
+Threads Used: 3
+Throughput: 1.0064105021523615
+
+[Keyword: marijuana]
+Time: 66.57s | URLs: 13 | Failed: 20
+Avg Response Time: 2.24s
+Max Concurrency: 4257
+Threads Used: 3
+Throughput: 0.19529344719359099
+
+[Keyword: directory]
+Time: 66.56s | URLs: 92 | Failed: 1324
+Avg Response Time: 9.96s
+Max Concurrency: 19162
+Threads Used: 3
+Throughput: 1.3822269466578354
+
+[Keyword: links]
+Time: 66.55s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Total Time across all]: 466.02s
+Total URLs Processed: 206
+Total Failed: 3084
+Overall Success Rate: 6.3%

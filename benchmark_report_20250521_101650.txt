@@ -1,0 +1,357 @@
+=== Benchmark Report - 2025-05-21 10:16:50 ===
+=== COMBINED CRAWLER BENCHMARK REPORT ===
+
+[Keyword: heroin]
+Time: 9.72s | URLs: 3 | Failed: 1
+Avg Response Time: 2.73s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.30864745967552654
+
+[Keyword: meth]
+Time: 9.66s | URLs: 3 | Failed: 1
+Avg Response Time: 2.73s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.310517165951751
+
+[Keyword: cocaine]
+Time: 9.66s | URLs: 3 | Failed: 1
+Avg Response Time: 2.73s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31071067148780607
+
+[Keyword: marijuana]
+Time: 9.65s | URLs: 3 | Failed: 1
+Avg Response Time: 2.73s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31093179760022566
+
+[Keyword: mdma]
+Time: 9.64s | URLs: 3 | Failed: 1
+Avg Response Time: 2.76s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3111721622272705
+
+[Keyword: lsd]
+Time: 9.63s | URLs: 3 | Failed: 1
+Avg Response Time: 2.77s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31140960177715415
+
+[Keyword: xanax]
+Time: 9.63s | URLs: 3 | Failed: 1
+Avg Response Time: 3.07s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3116589911342293
+
+[Keyword: fentanyl]
+Time: 9.62s | URLs: 3 | Failed: 1
+Avg Response Time: 3.08s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31194119786389585
+
+[Keyword: psychedelics]
+Time: 9.61s | URLs: 3 | Failed: 1
+Avg Response Time: 3.06s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3121757274955755
+
+[Keyword: prescription]
+Time: 9.60s | URLs: 3 | Failed: 1
+Avg Response Time: 2.91s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.312410920744649
+
+[Keyword: market]
+Time: 9.60s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: escrow]
+Time: 9.59s | URLs: 3 | Failed: 1
+Avg Response Time: 3.04s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31291905729003716
+
+[Keyword: wallet]
+Time: 9.58s | URLs: 3 | Failed: 1
+Avg Response Time: 3.06s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3131520910825384
+
+[Keyword: bitcoin]
+Time: 9.57s | URLs: 3 | Failed: 1
+Avg Response Time: 3.01s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31339191076644457
+
+[Keyword: monero]
+Time: 9.57s | URLs: 3 | Failed: 1
+Avg Response Time: 3.04s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3136332757813384
+
+[Keyword: vendor]
+Time: 9.56s | URLs: 3 | Failed: 1
+Avg Response Time: 3.08s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3138796176763648
+
+[Keyword: shop]
+Time: 9.55s | URLs: 3 | Failed: 1
+Avg Response Time: 3.29s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3140876870842425
+
+[Keyword: carding]
+Time: 9.54s | URLs: 3 | Failed: 1
+Avg Response Time: 3.29s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3143209668878961
+
+[Keyword: cc dump]
+Time: 9.54s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: listing]
+Time: 9.53s | URLs: 3 | Failed: 1
+Avg Response Time: 3.02s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.314885924169667
+
+[Keyword: directory]
+Time: 9.52s | URLs: 3 | Failed: 1
+Avg Response Time: 3.02s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31510387329702455
+
+[Keyword: index]
+Time: 9.51s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: mirror]
+Time: 9.50s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: hidden wiki]
+Time: 9.50s | URLs: 3 | Failed: 1
+Avg Response Time: 3.02s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3158786838095854
+
+[Keyword: onion links]
+Time: 9.49s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: archive]
+Time: 9.48s | URLs: 3 | Failed: 1
+Avg Response Time: 3.05s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3163247443317919
+
+[Keyword: dump]
+Time: 9.48s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: pastebin]
+Time: 9.47s | URLs: 3 | Failed: 1
+Avg Response Time: 3.02s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3168268779062919
+
+[Keyword: leak site]
+Time: 9.46s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: search]
+Time: 9.46s | URLs: 3 | Failed: 1
+Avg Response Time: 2.96s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31729063590108003
+
+[Keyword: exploit]
+Time: 9.45s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: zero day]
+Time: 9.44s | URLs: 3 | Failed: 1
+Avg Response Time: 3.00s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31778342235944973
+
+[Keyword: malware]
+Time: 9.43s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: keylogger]
+Time: 9.42s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: ransomware]
+Time: 9.42s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: rootkit]
+Time: 9.41s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: trojan]
+Time: 9.40s | URLs: 3 | Failed: 1
+Avg Response Time: 2.95s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31906030542623987
+
+[Keyword: phishing]
+Time: 9.40s | URLs: 3 | Failed: 1
+Avg Response Time: 2.98s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.31931070685515844
+
+[Keyword: botnet]
+Time: 9.39s | URLs: 3 | Failed: 1
+Avg Response Time: 2.97s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3195651240532741
+
+[Keyword: rat]
+Time: 9.38s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: identity]
+Time: 9.37s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: passport]
+Time: 9.37s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Keyword: ssn]
+Time: 9.36s | URLs: 3 | Failed: 1
+Avg Response Time: 3.02s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3205339211307245
+
+[Keyword: driver license]
+Time: 9.35s | URLs: 3 | Failed: 1
+Avg Response Time: 3.05s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.320760598514049
+
+[Keyword: forged documents]
+Time: 9.35s | URLs: 3 | Failed: 1
+Avg Response Time: 3.01s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3209997487011679
+
+[Keyword: credit card]
+Time: 9.34s | URLs: 3 | Failed: 1
+Avg Response Time: 3.01s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3212677375362107
+
+[Keyword: bank login]
+Time: 9.33s | URLs: 3 | Failed: 1
+Avg Response Time: 3.01s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3215110747529011
+
+[Keyword: paypal]
+Time: 9.32s | URLs: 3 | Failed: 1
+Avg Response Time: 3.22s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3217438113726418
+
+[Keyword: fake id]
+Time: 9.32s | URLs: 3 | Failed: 1
+Avg Response Time: 3.26s
+Max Concurrency: 26
+Threads Used: 3
+Throughput: 0.3219946680810502
+
+[Keyword: fullz]
+Time: 9.31s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+Threads Used: 3
+Throughput: 0.0
+
+[Total Time across all]: 474.46s
+Total URLs Processed: 102
+Total Failed: 50
+Overall Success Rate: 67.1%
