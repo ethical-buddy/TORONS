@@ -13,6 +13,8 @@ from pyfiglet import Figlet
 import platform
 import warnings
 import subprocess
+import cProfile
+
 warnings.filterwarnings("ignore")
 
 
@@ -151,4 +153,16 @@ if __name__ == "__main__":
     auto_renew_ip_thread = threading.Thread(
         target=tor_utility_instance.auto_renew_tor_ip, daemon=True)
     auto_renew_ip_thread.start()
+    # profiler = cProfile.Profile()
+
+    # Start profiling
+    # profiler.enable()
+
+    # Run the code you want to profile
+    # your_function_to_profile()
     main()
+    # Stop profiling
+    # profiler.disable()
+
+    # Save results to file
+    # profiler.dump_stats('profile_output.prof')

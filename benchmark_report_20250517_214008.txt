@@ -1,0 +1,63 @@
+=== Benchmark Report - 2025-05-17 21:40:08 ===
+=== COMBINED CRAWLER BENCHMARK REPORT ===
+
+[Keyword: index]
+Time: 78.17s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+| Threads Used: 3
+ | Throughput: 0.0
+
+[Keyword: heroin]
+Time: 78.15s | URLs: 17 | Failed: 30
+Avg Response Time: 5.35s
+Max Concurrency: 3789
+| Threads Used: 3
+ | Throughput: 0.21753777700624005
+
+[Keyword: meth]
+Time: 78.14s | URLs: 17 | Failed: 30
+Avg Response Time: 7.77s
+Max Concurrency: 3526
+| Threads Used: 3
+ | Throughput: 0.21755565292382809
+
+[Keyword: leak]
+Time: 78.13s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+| Threads Used: 3
+ | Throughput: 0.0
+
+[Keyword: porn]
+Time: 78.13s | URLs: 23 | Failed: 1712
+Avg Response Time: 8.21s
+Max Concurrency: 14222
+| Threads Used: 3
+ | Throughput: 0.2943984210220946
+
+[Keyword: marijuana]
+Time: 78.12s | URLs: 26 | Failed: 37
+Avg Response Time: 6.93s
+Max Concurrency: 6665
+| Threads Used: 3
+ | Throughput: 0.33282796398613257
+
+[Keyword: forum]
+Time: 78.10s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+| Threads Used: 3
+ | Throughput: 0.0
+
+[Keyword: discussion]
+Time: 78.10s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1
+| Threads Used: 3
+ | Throughput: 0.0
+
+[Total Time across all]: 625.03s
+Total URLs Processed: 83
+Total Failed: 1813
+Overall Success Rate: 4.4%

@@ -1,0 +1,22 @@
+=== Benchmark Report - 2025-05-17 19:52:59 ===
+=== COMBINED CRAWLER BENCHMARK REPORT ===
+
+[Keyword: index]
+Time: 151.50s | URLs: 0 | Failed: 1
+Avg Response Time: 0.00s
+Max Concurrency: 1 | Threads Used: 3
+
+[Keyword: heroin]
+Time: 151.49s | URLs: 17 | Failed: 29
+Avg Response Time: 3.74s
+Max Concurrency: 10229 | Threads Used: 3
+
+[Keyword: meth]
+Time: 151.48s | URLs: 17 | Failed: 29
+Avg Response Time: 9.07s
+Max Concurrency: 9838 | Threads Used: 3
+
+[Total Time across all]: 454.47s
+Total URLs Processed: 34
+Total Failed: 59
+Overall Success Rate: 36.6%
